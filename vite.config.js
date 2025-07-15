@@ -8,4 +8,7 @@ export default defineConfig({
     host: "0.0.0.0", // 👈 Allows access from other devices
     port: 5173, // 👈 Or any port you prefer
   },
+  build: {
+    sourcemap: true, // ✅ Enable source maps
+  },
 });
