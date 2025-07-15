@@ -1,7 +1,13 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./TopNavBar.css"; // 👇 Add styles (provided below)
-import { FaTrophy, FaUsers, FaPlusCircle, FaHome } from "react-icons/fa";
+import {
+  FaTrophy,
+  FaUsers,
+  FaPlusCircle,
+  FaHome,
+  FaDownload,
+} from "react-icons/fa";
 import { RiAdminFill } from "react-icons/ri";
 import { TbTournament } from "react-icons/tb";
 
@@ -14,6 +20,7 @@ const TopNavBar = () => {
     { path: "/tournaments", icon: <FaTrophy />, label: "Tournaments" },
     { path: "/create-team", icon: <FaPlusCircle />, label: "Create Team" },
     { path: "/join-team", icon: <FaUsers />, label: "Join Team" },
+    { path: "/download", icon: <FaDownload />, label: "Download App" },
     // ✅ Admin Panel link only visible to admins
     {
       path: "/admin-panel",
