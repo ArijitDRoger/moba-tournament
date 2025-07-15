@@ -97,7 +97,8 @@ const Sidebar = () => {
             </Link>
           </li>
           <li onClick={() => navigate("/download")}>
-            <FaDownload /> <span>Download App</span>
+            {" "}
+            <span>Download App</span>
           </li>
 
           {/* ✅ Show Create Tournament only to admins */}
