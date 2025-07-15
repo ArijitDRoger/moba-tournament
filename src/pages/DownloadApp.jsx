@@ -42,11 +42,6 @@ const DownloadApp = () => {
           </li>
         ))}
       </ul>
-
-      <div className="qr-section">
-        <p>📷 Scan QR Code to download directly:</p>
-        <img src={apkQR} alt="Download QR" />
-      </div>
     </div>
   );
 };
