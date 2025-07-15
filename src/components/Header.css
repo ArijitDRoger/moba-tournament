@@ -1,0 +1,71 @@
+.app-header {
+  background-color: rgba(0, 0, 0, 0.7);
+  border-bottom: 1px solid #444;
+  padding: 20px 15px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 255, 180, 0.2);
+}
+
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  font-size: 32px;
+  filter: drop-shadow(0 0 4px #00ffcc);
+}
+
+.header-title {
+  font-size: 28px;
+  color: #00ffcc;
+  font-weight: 700;
+  text-shadow: 0 0 5px #00ffcc;
+  margin: 0;
+}
+
+/* 🚪 Logout Button */
+.logout-btn {
+  background: transparent;
+  border: 1px solid #00ffcc;
+  color: #00ffcc;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+.logout-btn:hover {
+  background-color: #00ffcc;
+  color: #000;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app-header {
+    margin-top: 40px;
+  }
+
+  .header-title {
+    font-size: 20px;
+  }
+  .logo-icon {
+    font-size: 24px;
+  }
+  .logout-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+}

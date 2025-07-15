@@ -1,0 +1,62 @@
+/* JoinTeam.css */
+.join-team-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  
+}
+.glow {
+  color: #fff;
+  text-shadow: 0 0 6px #9effb4, 0 0 10px #38ff91;
+}
+
+.glass-box {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 20px;
+  max-width: 600px;
+  width: 100%;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  color: white;
+}
+
+.team-list {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.team-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s;
+}
+
+.team-card:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.team-info {
+  color: #fff;
+  font-size: 14px;
+}
+
+.join-button {
+  background-color: #28a745;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.join-button:hover {
+  background-color: #218838;
+}

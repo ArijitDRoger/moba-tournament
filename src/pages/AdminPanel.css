@@ -1,0 +1,150 @@
+/* Center container */
+.admin-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Heading style */
+.admin-heading {
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+/* Tab styles */
+.admin-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tab-item {
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+
+.tab-item.active {
+  background: rgba(0, 255, 128, 0.25);
+  border-color: #00ff80;
+  color: #00ff80;
+  font-weight: bold;
+}
+
+.tab-content {
+  margin-top: 2rem;
+}
+
+/* Card layout */
+.admin-glass-card {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(2px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+/* Glow effect */
+.admin-glow {
+  box-shadow: 0 0 15px rgba(0, 255, 128, 0.4);
+}
+
+/* Pagination buttons */
+.btn-group .btn {
+  min-width: 100px;
+}
+
+/* Dark background (optional) */
+body {
+  background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .admin-tabs {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .admin-glass-card {
+    padding: 1rem;
+  }
+}
+
+/* Darker input and select */
+.form-control,
+.form-select {
+  background-color: rgba(30, 30, 30, 0.9);
+  color: #ddd;
+  border: 1px solid rgba(100, 100, 100, 0.6);
+  transition: all 0.3s;
+}
+
+.form-control:focus,
+.form-select:focus {
+  background-color: rgba(40, 40, 40, 0.95);
+  color: #fff;
+  border-color: #00ff80;
+  box-shadow: 0 0 5px #00ff8050;
+}
+
+/* Button tweaks */
+.btn-outline-secondary,
+.btn-outline-info {
+  background-color: rgba(30, 30, 30, 0.8);
+  color: #ddd;
+  border-color: #444;
+  transition: all 0.3s;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-info:hover {
+  background-color: #00ff8044;
+  color: #fff;
+  border-color: #00ff80;
+}
+
+.form-control,
+.form-select {
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+.btn {
+  border-radius: 6px;
+}
+
+/* Dark input styling */
+input.form-control {
+  background-color: rgba(20, 20, 20, 0.8);
+  color: #ddd;
+  border: 1px solid rgba(80, 80, 80, 0.6);
+  border-radius: 6px;
+  padding: 0.45rem 0.75rem;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+input.form-control::placeholder {
+  color: #888;
+}
+
+input.form-control:focus {
+  background-color: rgba(30, 30, 30, 0.9);
+  color: #fff;
+  border-color: #00ff80;
+  box-shadow: 0 0 6px #00ff8040;
+}

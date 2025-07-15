@@ -1,0 +1,63 @@
+.create-team-container {
+
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.glow {
+  color: #fff;
+  text-shadow: 0 0 6px #9effb4, 0 0 10px #38ff91;
+}
+
+.form-box {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  border-radius: 15px;
+  padding: 30px;
+  width: 100%;
+  max-width: 400px;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.form-box h2 {
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-size: 28px;
+}
+
+.form-box input {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+}
+
+.form-box input::placeholder {
+  color: #ddd;
+}
+
+.form-box button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.form-box button:hover {
+  background-color: #0056b3;
+  cursor: pointer;
+}

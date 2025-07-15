@@ -1,0 +1,27 @@
+/* MobileAdminTabs.css */
+
+.mobile-admin-tabs {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #111;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  z-index: 999;
+}
+
+.mobile-admin-tabs .tab {
+  color: #ccc;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.mobile-admin-tabs .tab.active {
+  color: #00ffd5;
+  font-weight: bold;
+}
