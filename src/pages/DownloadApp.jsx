@@ -1,7 +1,6 @@
 import React from "react";
 import "./DownloadApp.css";
-import apkQR from "../assets/apk-qr.png"; // Optional QR code image
-import apkFile from "../assets/eTournament.apk"; // Your actual APK
+// import apkQR from "../assets/apk-qr.png"; // Optional QR code image
 
 const changelog = [
   {
