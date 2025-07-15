@@ -48,13 +48,13 @@
 }
 
 /* Sidebar fixed, non-scrollable */
-.sidebar {
+/* .sidebar {
   width: 250px;
   background-color: #1c1c1c;
   border-right: 1px solid #333;
   flex-shrink: 0;
   overflow: hidden;
-}
+} */
 
 /* Only main-content scrolls */
 /* .main-content-desktop {

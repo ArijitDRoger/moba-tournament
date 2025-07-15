@@ -1,42 +1,41 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { signOut } from "firebase/auth";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
-import { ImAndroid } from "react-icons/im";
 import {
+  doc,
+  getDoc,
   collection,
   getDocs,
   query,
   where,
   onSnapshot,
 } from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth"; // 👈 already used
-
+import { ImAndroid } from "react-icons/im";
 import "./Sidebar.css";
 
 const Sidebar = () => {
   const [pendingCount, setPendingCount] = useState(0);
   const [userName, setUserName] = useState("User");
-  const [isAdmin, setIsAdmin] = useState(false); // ✅ new
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchUserData = async () => {
       const currentUser = auth.currentUser;
       if (currentUser) {
-        // Get user name from Firestore
         const docRef = doc(db, "users", currentUser.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           setUserName(docSnap.data().name || "User");
         }
 
-        // Get admin claim from token
         const token = await currentUser.getIdTokenResult();
         setIsAdmin(token.claims.admin === true);
       }
     };
+
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const docRef = doc(db, "users", user.uid);
@@ -49,7 +48,6 @@ const Sidebar = () => {
         if (token.claims.admin) {
           setIsAdmin(true);
 
-          // 🔴 Real-time listener for pending payments
           const q = query(
             collection(db, "pendingPayments"),
             where("status", "==", "pending")
@@ -59,7 +57,6 @@ const Sidebar = () => {
             setPendingCount(snapshot.size);
           });
 
-          // 🧹 Cleanup when user logs out
           return () => unsubscribe();
         }
       }
@@ -68,62 +65,64 @@ const Sidebar = () => {
     fetchUserData();
   }, []);
 
-  const logout = async () => {
-    await signOut(auth);
-    navigate("/login");
-  };
-
   return (
-    <div className="sidebar">
+    <div className="sidebar custom-sidebar">
       <div className="sidebar-content">
         <ul className="nav flex-column text-white">
-          <li className="nav-item">
+          <li className="nav-item ">
             <Link to="/dashboard" className="nav-link text-white">
               🏠 Home
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item ">
             <Link to="/tournaments" className="nav-link text-white">
               🧾 Tournaments
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item ">
             <Link to="/create-team" className="nav-link text-white">
               ➕ Create Team
             </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item ">
             <Link to="/join-team" className="nav-link text-white">
               🤝 Join Team
             </Link>
           </li>
-          <li className="nav-item" onClick={() => navigate("/download")}>
-            {" "}
-            <ImAndroid />
-            <span>Download App</span>
+
+          {/* 🔧 Beautified Download App */}
+          <li className="nav-item">
+            <div
+              className={`nav-link d-flex align-items-center gap-2 ${
+                location.pathname === "/download" ? "active" : ""
+              }`}
+              style={{ cursor: "pointer" }}
+              onClick={() => navigate("/download")}
+            >
+              <ImAndroid size={18} style={{ marginBottom: "2px" }} />
+              <span>Download App</span>
+            </div>
           </li>
 
-          {/* ✅ Show Create Tournament only to admins */}
           {isAdmin && (
-            <li className="nav-item">
-              <Link to="/create-tournament" className="nav-link text-white">
-                🎯 Create Tournament
-              </Link>
-            </li>
-          )}
-
-          {isAdmin && (
-            <li className="nav-item">
-              <Link
-                to="/admin-panel"
-                className="nav-link text-white d-flex align-items-center justify-content-between"
-              >
-                🛠️ Admin Panel
-                {pendingCount > 0 && (
-                  <span className="badge bg-danger ms-2">{pendingCount}</span>
-                )}
-              </Link>
-            </li>
+            <>
+              <li className="nav-item">
+                <Link to="/create-tournament" className="nav-link text-white">
+                  🎯 Create Tournament
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
+                  to="/admin-panel"
+                  className="nav-link text-white d-flex align-items-center justify-content-between"
+                >
+                  🛠️ Admin Panel
+                  {pendingCount > 0 && (
+                    <span className="badge bg-danger ms-2">{pendingCount}</span>
+                  )}
+                </Link>
+              </li>
+            </>
           )}
         </ul>
       </div>
@@ -138,9 +137,6 @@ const Sidebar = () => {
           }}
         ></div>
         <p className="fw-bold mb-1">{userName}</p>
-        <button className="btn btn-outline-light btn-sm" onClick={logout}>
-          Log Out
-        </button>
       </div>
     </div>
   );
