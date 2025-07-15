@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { ImAndroid } from "react-icons/im";
 import {
   collection,
   getDocs,
@@ -96,8 +97,9 @@ const Sidebar = () => {
               🤝 Join Team
             </Link>
           </li>
-          <li onClick={() => navigate("/download")}>
+          <li className="nav-item" onClick={() => navigate("/download")}>
             {" "}
+            <ImAndroid />
             <span>Download App</span>
           </li>
 
