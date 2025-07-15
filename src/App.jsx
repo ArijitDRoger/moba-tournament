@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
@@ -14,8 +14,24 @@ import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import Layout from "./components/Layout";
 import ResetPassword from "./pages/ResetPassword"; // Add this
 import DownloadApp from "./pages/DownloadApp";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 
 const App = () => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("User is signed in:", user.email);
+        // restore UI or redirect to dashboard
+      } else {
+        console.log("No user is signed in");
+        // redirect to login
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
