@@ -23,7 +23,7 @@ const DownloadApp = () => {
   return (
     <div className="download-page">
       <h2>📱 Download Moba Tournament App (Android)</h2>
-      <a href="/eTournament.apk" download>
+      <a href="/eTour.apk" download>
         Download APK
       </a>
 
