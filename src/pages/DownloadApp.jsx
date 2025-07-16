@@ -22,7 +22,7 @@ const changelog = [
 ];
 
 const DownloadApp = () => {
-  const apkUrl = "/assets/eTournament.apk"; // Update if hosted elsewhere
+  const apkUrl = "/assets/eTour.apk"; // Update if hosted elsewhere
   const whatsappLink = `https://wa.me/?text=Hey!%20Download%20the%20eTournament%20App:%20${window.location.origin}${apkUrl}`;
 
   return (
@@ -59,7 +59,7 @@ const DownloadApp = () => {
       <div className="qr-section">
         <h3>Scan to Download</h3>
         <QRCodeCanvas
-          value="http://localhost:5173/assets/eTournament.apk"
+          value="https://etournament.netlify.app/assets/eTour.apk"
           size={200}
         />
       </div>
