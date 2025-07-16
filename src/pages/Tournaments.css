@@ -1,3 +1,4 @@
+
 .tournaments-container {
   min-height: 100vh;
   padding: 40px 20px;
@@ -14,9 +15,12 @@
   max-width: 800px;
   width: 100%;
   color: white;
+  font-family: 'Debata', sans-serif;
+  font-weight: 600;
 }
 
 .glass-card {
+
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(2px);
   border-radius: 15px;

@@ -1,4 +1,6 @@
 /* Layout.css */
+
+
 .main-content-desktop,
 .main-content-mobile {
   position: relative; /* <-- REQUIRED for ::before to work properly */

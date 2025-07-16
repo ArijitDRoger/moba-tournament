@@ -15,6 +15,9 @@
   padding: 30px;
   width: 100%;
   max-width: 700px;
+  padding: 20px 20px;
+  margin: 50px 20px;
+  margin-top: 1px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 

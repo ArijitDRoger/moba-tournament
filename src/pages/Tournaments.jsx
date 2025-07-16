@@ -87,17 +87,18 @@ const Tournaments = () => {
             </button>
 
             <p>
-              <b>Game:</b> {tour.game}
+              <b style={{ color: "lightgreen" }}>Game:</b> {tour.game}
             </p>
             <p>
-              <b>Start Date:</b> {tour.startDate}
+              <b style={{ color: "lightgreen" }}>Start Date:</b>{" "}
+              {tour.startDate}
             </p>
             <p>
-              <b>Entry Fee:</b> ₹{tour.entryFee}
+              <b style={{ color: "lightgreen" }}>Entry Fee:</b> ₹{tour.entryFee}
             </p>
             <p>
-              <b>Teams Joined:</b> {tour.registeredTeams?.length || 0} /{" "}
-              {tour.maxTeams}
+              <b style={{ color: "lightgreen" }}>Teams Joined:</b>{" "}
+              {tour.registeredTeams?.length || 0} / {tour.maxTeams}
             </p>
             <button
               className="btn btn-primary btn-sm mt-2"

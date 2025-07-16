@@ -142,7 +142,7 @@ const Dashboard = () => {
     <div className="dashboard-container">
       <div className="dashboard-card">
         <h2 className="glow">🏠 Dashboard</h2>
-
+        <br />
         {team ? (
           <div>
             <h4>
@@ -188,7 +188,7 @@ const Dashboard = () => {
               <b>Created By:</b>{" "}
               {isCreator ? "You" : memberEmails[team.createdBy] || "Unknown"}
             </p>
-
+            <br />
             <h5 className="mt-3">Members:</h5>
             <ul>
               {members.map((member) => {
@@ -218,7 +218,7 @@ const Dashboard = () => {
                 🚪 Leave Team
               </button>
             )}
-
+            <br />
             {pendingPayments.length > 0 && (
               <div className="mt-4">
                 <h5>⏳ Pending Tournaments:</h5>

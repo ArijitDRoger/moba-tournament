@@ -1,7 +1,18 @@
+@font-face {
+  font-family: 'Debata';
+  src: url('/assets/fonts/Debata-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 html,
 body,
 #root {
   height: 100%;
   margin: 0;
   overflow: hidden; /* prevent global scroll */
+  font-family: 'Debata', sans-serif;
+  font-weight: 200;
+  font-size: 10px;
 }
