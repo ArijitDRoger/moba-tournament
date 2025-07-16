@@ -70,22 +70,42 @@ const Sidebar = () => {
       <div className="sidebar-content">
         <ul className="nav flex-column text-white">
           <li className="nav-item ">
-            <Link to="/dashboard" className="nav-link text-white">
+            <Link
+              to="/dashboard"
+              className={`nav-link d-flex align-items-center gap-2 ${
+                location.pathname === "/dashboard" ? "active" : ""
+              }`}
+            >
               🏠 Home
             </Link>
           </li>
           <li className="nav-item ">
-            <Link to="/tournaments" className="nav-link text-white">
+            <Link
+              to="/tournaments"
+              className={`nav-link d-flex align-items-center gap-2 ${
+                location.pathname === "/tournaments" ? "active" : ""
+              }`}
+            >
               🧾 Tournaments
             </Link>
           </li>
           <li className="nav-item ">
-            <Link to="/create-team" className="nav-link text-white">
+            <Link
+              to="/create-team"
+              className={`nav-link d-flex align-items-center gap-2 ${
+                location.pathname === "/create-team" ? "active" : ""
+              }`}
+            >
               ➕ Create Team
             </Link>
           </li>
           <li className="nav-item ">
-            <Link to="/join-team" className="nav-link text-white">
+            <Link
+              to="/join-team"
+              className={`nav-link d-flex align-items-center gap-2 ${
+                location.pathname === "/join-team" ? "active" : ""
+              }`}
+            >
               🤝 Join Team
             </Link>
           </li>
