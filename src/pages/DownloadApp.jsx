@@ -28,7 +28,11 @@ const DownloadApp = () => {
   return (
     <div className="download-page">
       <h2>📱 Download Moba Tournament App (Android)</h2>
-      <a href={apkUrl} className="download-btn" download>
+      <a
+        href="https://etournament.netlify.app/assets/eTour.apk"
+        className="download-btn"
+        download
+      >
         Download APK
       </a>
 
