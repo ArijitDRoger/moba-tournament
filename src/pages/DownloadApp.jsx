@@ -20,7 +20,8 @@ const changelog = [
 ];
 
 const DownloadApp = () => {
-  const apkUrl = "/eTour.apk";
+  const apkUrl =
+    "https://github.com/ArijitDRoger/moba-tournament/releases/download/v1.0.0/eTour.apk";
 
   return (
     <div className="download-page">
