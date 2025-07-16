@@ -67,9 +67,16 @@
 }
 
 .qr-section {
-  margin-top: 40px;
+  text-align: center;
+  margin: 2rem 0;
 }
 
+.qr-section canvas {
+  border: 2px solid #00ffcc;
+  border-radius: 10px;
+  background: white;
+  padding: 10px;
+}
 .qr-section h3 {
   color: #00ffcc;
   margin-bottom: 15px;

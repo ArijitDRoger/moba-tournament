@@ -1,6 +1,6 @@
 import React from "react";
+import { QRCodeCanvas } from "qrcode.react"; // ✅ Add this import
 import "./DownloadApp.css";
-// import apkQR from "../assets/apk-qr.png"; // Optional QR code image
 
 const changelog = [
   {
@@ -20,15 +20,20 @@ const changelog = [
 ];
 
 const DownloadApp = () => {
-  const apkUrl = "/assets/eTournament.apk"; // Update if hosted elsewhere
-  const whatsappLink = `https://wa.me/?text=Hey!%20Download%20the%20eTournament%20App:%20${window.location.origin}${apkUrl}`;
+  const apkUrl = `${window.location.origin}/eTour.apk`; // Adjust as needed
+  const whatsappLink = `https://wa.me/?text=Hey!%20Download%20the%20eTournament%20App:%20${apkUrl}`;
 
   return (
     <div className="download-page">
       <h2>📱 Download Moba Tournament App (Android)</h2>
       <a href="/eTour.apk" className="download-btn" download>
-        Download APK
+        ⬇️ Download APK
       </a>
+
+      <div className="qr-section">
+        <h3>📷 Scan QR to Download</h3>
+        <QRCodeCanvas value={apkUrl} size={200} />
+      </div>
 
       <h3>📌 What's New</h3>
       <ul className="changelog">
