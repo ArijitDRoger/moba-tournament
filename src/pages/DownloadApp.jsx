@@ -20,12 +20,12 @@ const changelog = [
 ];
 
 const DownloadApp = () => {
-  const apkUrl = `${window.location.origin}/eTour.apk`; // Adjust as needed
+  const apkUrl = "/eTour.apk";
 
   return (
     <div className="download-page">
       <h2>📱 Download Moba Tournament App (Android)</h2>
-      <a href="/eTour.apk" className="download-btn" download>
+      <a href={apkUrl} className="download-btn" download>
         ⬇️ Download APK
       </a>
 
