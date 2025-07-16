@@ -21,7 +21,6 @@ const changelog = [
 
 const DownloadApp = () => {
   const apkUrl = `${window.location.origin}/eTour.apk`; // Adjust as needed
-  const whatsappLink = `https://wa.me/?text=Hey!%20Download%20the%20eTournament%20App:%20${apkUrl}`;
 
   return (
     <div className="download-page">
