@@ -12,41 +12,46 @@ import AdminPanel from "./pages/AdminPanel";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import Layout from "./components/Layout";
-import ResetPassword from "./pages/ResetPassword"; // Add this
+import ResetPassword from "./pages/ResetPassword";
 import DownloadApp from "./pages/DownloadApp";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 
 const App = () => {
+  const [user, setUser] = useState(null);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log("User is signed in:", user.email);
-        // restore UI or redirect to dashboard
-      } else {
-        console.log("No user is signed in");
-        // redirect to login
-      }
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser || null);
+      setCheckingAuth(false);
     });
 
     return () => unsubscribe();
   }, []);
 
+  if (checkingAuth) {
+    return <div style={{ color: "#fff", textAlign: "center" }}>Loading...</div>;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
-        {/* 🔁 Redirect root to login */}
-        <Route path="/" element={<Navigate to="/login" />} />
+        {/* 🔁 Redirect root to login or dashboard */}
+        <Route
+          path="/"
+          element={<Navigate to={user ? "/dashboard" : "/login"} />}
+        />
 
-        {/* 🌐 Public Routes */}
+        {/* Public Routes */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
 
-        {/* 🔒 Protected Routes with Layout (Includes Admin too) */}
+        {/* Protected Routes with Layout */}
         <Route
           path="/"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute user={user}>
               <Layout />
             </ProtectedRoute>
           }
@@ -54,29 +59,25 @@ const App = () => {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="create-team" element={<CreateTeam />} />
           <Route path="join-team" element={<JoinTeam />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="reset-password" element={<ResetPassword />} />
           <Route
-            path="/create-tournament"
+            path="create-tournament"
             element={
-              <ProtectedAdminRoute>
+              <ProtectedAdminRoute user={user}>
                 <CreateTournament />
               </ProtectedAdminRoute>
             }
           />
-
           <Route path="tournaments" element={<Tournaments />} />
           <Route
             path="join/:tournamentId/:teamId"
             element={<JoinWithPayment />}
           />
-
           <Route path="download" element={<DownloadApp />} />
-
-          {/* ✅ Admin Panel now inside Layout */}
           <Route
             path="admin-panel"
             element={
-              <ProtectedAdminRoute>
+              <ProtectedAdminRoute user={user}>
                 <AdminPanel />
               </ProtectedAdminRoute>
             }
