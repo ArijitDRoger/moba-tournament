@@ -27,12 +27,7 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 // ✅ Set persistent login AFTER auth is initialized
-setPersistence(auth, browserLocalPersistence)
-  .then(() => {
-    console.log("✅ Auth persistence set to local");
-  })
-  .catch((error) => {
-    console.error("❌ Failed to set persistence", error);
-  });
-
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error("Firebase persistence error:", error);
+});
 export { auth, db, storage };
