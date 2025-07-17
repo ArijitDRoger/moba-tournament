@@ -242,7 +242,7 @@ const Dashboard = () => {
                       <b>{t.title}</b> -{" "}
                       <span className="text-warning">{t.game}</span>{" "}
                       <span className="text-primary">
-                        (Starts on <br /> {t.startDate})
+                        Starts on <br /> {t.startDate}
                       </span>
                     </li>
                   ))}
