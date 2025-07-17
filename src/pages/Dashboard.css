@@ -1,16 +1,21 @@
 .dashboard-container {
   
-  min-height: 100vh;
+  min-height: 50vh;
   padding: 40px 20px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
+.glow {
+  color: #fff;
+  text-shadow: 0 0 6px #38ff91, 0 0 6px #38ff91;
+}
+
 .dashboard-card {
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(2px);
-  color: white;
+  color: rgb(255, 255, 255);
   border-radius: 15px;
   padding: 30px;
   width: 100%;
@@ -34,6 +39,10 @@
   padding-left: 0;
 }
 
+.dashboard-card h5,b{
+  color: #38ff91;
+  font-weight: bold;}
+
 .dashboard-card li {
   background: rgba(255, 255, 255, 0.05);
   margin-bottom: 8px;
@@ -44,7 +53,31 @@
   align-items: center;
 }
 
+.tour-joined{
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  border-radius: 8px;;
+}
+
+.tour-joined b{
+  color: #38ff91;
+  font-weight: bold;
+  font-size: .8rem;
+}
+
 .glow {
   color: #fff;
   text-shadow: 0 0 6px #9effb4, 0 0 10px #38ff91;
+}
+
+@media screen {
+  .tour-joined b{
+  color: #38ff91;
+  font-size: 1rem;
+}
+.tour-joined span{
+  color: #38ff91;
+  font-size: .8rem;
+}
+  
 }

@@ -24,7 +24,7 @@
 }
 
 .nav-icon-label span {
-  font-size: 12px;
+  font-size: 8px;
   color: #aaa;
 }
 
@@ -35,7 +35,7 @@
 
 .nav-item {
   scroll-snap-align: start;
-
+  transition: all 0.3s ease;
   flex: 0 0 auto;
   min-width: 70px;
   padding: 0 18px;
@@ -58,4 +58,25 @@
 .nav-item.active {
   color: #00ffae;
   transform: scale(1.2);
+  box-shadow: 0 0 10px #00ffae, 0 0 20px #00ffae, 0 0 30px #00ffae;
+  border-radius: 10px;
+  background-color: rgba(0, 255, 174, 0.1); /* subtle glow background */
+  animation: glowPulse 1.5s infinite;
 }
+
+.nav-item.active .nav-icon-label span {
+  color: #00ffae;
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 10px #00ffae, 0 0 20px #00ffae;
+  }
+  50% {
+    box-shadow: 0 0 20px #00ffae, 0 0 30px #00ffae;
+  }
+  100% {
+    box-shadow: 0 0 10px #00ffae, 0 0 20px #00ffae;
+  }
+}
+

@@ -171,7 +171,7 @@ const Dashboard = () => {
                   {team.teamName}{" "}
                   {isCreator && (
                     <button
-                      className="btn btn-sm btn-outline-light ms-2"
+                      className="btn btn-success btn-sm btn-outline-light ms-2"
                       onClick={() => {
                         setEditing(true);
                         setNewTeamName(team.teamName);
@@ -234,12 +234,16 @@ const Dashboard = () => {
             )}
 
             {joinedTournaments.length > 0 && (
-              <div className="mt-4">
+              <div className="tour-joined mt-4">
                 <h5>🏆 Tournaments Joined:</h5>
                 <ul>
                   {joinedTournaments.map((t) => (
                     <li key={t.id}>
-                      <b>{t.title}</b> - {t.game} (Starts on {t.startDate})
+                      <b>{t.title}</b> -{" "}
+                      <span className="text-warning">{t.game}</span>{" "}
+                      <span className="text-primary">
+                        (Starts on <br /> {t.startDate})
+                      </span>
                     </li>
                   ))}
                 </ul>

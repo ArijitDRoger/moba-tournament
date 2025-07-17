@@ -68,7 +68,7 @@ const App = () => {
               </ProtectedAdminRoute>
             }
           />
-          <Route path="tournaments" element={<Tournaments />} />
+
           <Route
             path="join/:tournamentId/:teamId"
             element={<JoinWithPayment />}
@@ -82,6 +82,7 @@ const App = () => {
               </ProtectedAdminRoute>
             }
           />
+          <Route path="/tournaments" element={<Tournaments user={user} />} />
         </Route>
       </Routes>
     </BrowserRouter>

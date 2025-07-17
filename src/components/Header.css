@@ -24,31 +24,29 @@
 }
 
 .logo-icon {
-  font-size: 32px;
-  filter: drop-shadow(0 0 4px #00ffcc);
+  font-size: 30px;
 }
 
 .header-title {
-  font-size: 28px;
-  color: #00ffcc;
+  font-size: 20px;
+  color: #38ff91;
   font-weight: 700;
-  text-shadow: 0 0 5px #00ffcc;
-  margin: 0;
+      margin-top: -10px;
 }
 
 /* 🚪 Logout Button */
 .logout-btn {
   background: transparent;
-  border: 1px solid #00ffcc;
-  color: #00ffcc;
+  border: 1px solid #ff5938;
+  color: #ff5938;
   padding: 6px 16px;
   border-radius: 6px;
-  font-weight: 600;
+  font-weight: 900;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
 .logout-btn:hover {
-  background-color: #00ffcc;
+  background-color: #38ff91;
   color: #000;
 }
 
@@ -59,13 +57,13 @@
   }
 
   .header-title {
-    font-size: 20px;
+    font-size: 15px;
   }
   .logo-icon {
     font-size: 24px;
   }
   .logout-btn {
     padding: 5px 10px;
-    font-size: 14px;
+    font-size: 10px;
   }
 }

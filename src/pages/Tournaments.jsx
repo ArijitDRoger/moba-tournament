@@ -8,13 +8,15 @@ import "./Tournaments.css";
 import ViewFixtureModal from "../components/ViewFixtureModal";
 
 const Tournaments = () => {
+  const [showPrompt, setShowPrompt] = useState(false);
+  const navigate = useNavigate();
   const [viewFixtureTournamentId, setViewFixtureTournamentId] = useState(null);
+  const user = auth.currentUser;
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [tournaments, setTournaments] = useState([]);
   const [userTeamId, setUserTeamId] = useState(null);
   const [selectedTournament, setSelectedTournament] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -50,6 +52,11 @@ const Tournaments = () => {
     if (!userTeamId) {
       alert("Please create or join a team first!");
       return;
+    }
+    if (!user) {
+      setShowPrompt(true);
+    } else {
+      navigate(`/join/${tournamentId}`);
     }
     navigate(`/join/${tournamentId}/${userTeamId}`);
   };
@@ -108,6 +115,14 @@ const Tournaments = () => {
             </button>
           </div>
         ))}
+        {/* Signup Prompt Modal */}
+        {showPrompt && (
+          <div className="modal">
+            <p>You need to sign up or log in to join a tournament.</p>
+            <button onClick={() => navigate("/signup")}>Go to Signup</button>
+            <button onClick={() => setShowPrompt(false)}>Cancel</button>
+          </div>
+        )}
       </div>
       {viewFixtureTournamentId && (
         <ViewFixtureModal

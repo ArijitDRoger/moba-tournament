@@ -1,6 +1,6 @@
 .create-team-container {
 
-  height: 100vh;
+  min-height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,7 +42,8 @@
 }
 
 .form-box input::placeholder {
-  color: #ddd;
+  font-size: 10px;
+  color: #dddddd51;
 }
 
 .form-box button {

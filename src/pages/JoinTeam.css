@@ -2,8 +2,8 @@
 .join-team-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 60px 20px;
+  padding: 60px;
+  min-height: 10vh;
   
 }
 .glow {
@@ -38,6 +38,8 @@
   transition: background 0.3s;
 }
 
+
+
 .team-card:hover {
   background-color: rgba(255, 255, 255, 0.15);
 }
@@ -60,3 +62,4 @@
 .join-button:hover {
   background-color: #218838;
 }
+

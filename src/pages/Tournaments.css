@@ -1,6 +1,6 @@
 
 .tournaments-container {
-  min-height: 100vh;
+  min-height: 50vh;
   padding: 40px 20px;
   display: flex;
   justify-content: center;
@@ -8,7 +8,7 @@
 }
 .glow {
   color: #fff;
-  text-shadow: 0 0 6px #9effb4, 0 0 10px #38ff91;
+  text-shadow: 0 0 6px #38ff91, 0 0 1px #38ff91;
 }
 
 .tournaments-content {
@@ -18,6 +18,25 @@
   font-family: 'Debata', sans-serif;
   font-weight: 600;
 }
+
+.modal {
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -30%);
+  z-index: 1000;
+  max-width: 300px;
+  text-align: center;
+}
+.modal button {
+  margin-top: 10px;
+  margin-right: 8px;
+}
+
 
 .glass-card {
 

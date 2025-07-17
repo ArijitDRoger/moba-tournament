@@ -90,7 +90,7 @@
 }
 
 .sidebar a:hover {
-  color: #00ffd5;
+  color: #38ff91;
 }
 .custom-sidebar .nav-link {
   font-weight: 500;
@@ -108,6 +108,6 @@
 
 .custom-sidebar .nav-link.active {
   background-color: rgba(0, 255, 213, 0.2);
-  border-left: 4px solid #00ffd5;
-  color: #00ffd5 !important;
+  border-left: 4px solid #38ff91;
+  color: #38ff91 !important;
 }
