@@ -50,6 +50,28 @@
   color: #000;
 }
 
+.header-btn {
+  margin-left: 12px;
+  padding: 6px 14px;
+  border: 1.5px solid #00ffc3;
+  border-radius: 6px;
+  color: #00ffc3;
+  text-decoration: none;
+  font-weight: 600;
+  background-color: transparent;
+  transition: 0.3s;
+}
+
+.header-btn:hover {
+  background-color: #00ffc320;
+}
+
+.header-btn.signup {
+  background-color: #00ffc3;
+  color: #000;
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
   .app-header {

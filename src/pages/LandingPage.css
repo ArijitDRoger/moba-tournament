@@ -1,0 +1,183 @@
+/* LandingPage.css */
+
+.landing-container {
+  background: #0f0f0f;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  display: flow-root; /* remove flex to allow full scroll */
+  overflow-x: hidden;
+}
+
+
+.landing-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #00ffcc;
+}
+
+.auth-buttons .btn {
+  margin-left: 12px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.auth-buttons .login {
+  border: 1.5px solid #00ffc3;
+  color: #00ffc3;
+}
+
+.auth-buttons .signup {
+  background-color: #00ffc3;
+  color: #000;
+}
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 300px;
+  padding-right: 40px;
+}
+
+.hero-text h1 {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.hero-text .highlight {
+  color: #00ffc3;
+}
+
+.hero-text p {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  animation: softGlow 3s ease-in-out infinite alternate;
+}
+
+/* 🔮 Keyframes for soft multi-color glow */
+@keyframes softGlow {
+  0% {
+    text-shadow: 0 0 5px #ff00cc, 0 0 10px #ff00cc;
+    color: #ff00cc;
+  }
+  25% {
+    text-shadow: 0 0 8px #00ffff, 0 0 16px #00ffff;
+    color: #00ffff;
+  }
+  50% {
+    text-shadow: 0 0 8px #2fff00, 0 0 16px #2fff00;
+    color: #2fff00;
+  }
+  75% {
+    text-shadow: 0 0 6px #eeff00, 0 0 12px #eeff00;
+    color: #eeff00;
+  }
+  100% {
+    text-shadow: 0 0 6px #ff2a00, 0 0 12px #ff2a00;
+    color: #ff2a00;
+  }
+}
+
+
+.hero-image {
+  flex: 1;
+  text-align: center;
+}
+
+.hero-image img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.btn.primary {
+  background: #6a0dad;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.how-it-works {
+  padding: 40px;
+  background: #1a1a1a;
+}
+
+.how-it-works h2 {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.how-it-works ul {
+  list-style: none;
+  padding: 0;
+}
+
+.how-it-works li {
+  background: #222;
+  margin-bottom: 12px;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.how-it-works li span {
+  background: #00ffc3;
+  color: #000;
+  font-weight: bold;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.landing-footer {
+  text-align: center;
+  padding: 20px;
+  background: #121212;
+  font-size: 0.9rem;
+  color: #888;
+}
+
+
+@media screen and (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .hero-text {
+    padding-right: 0;
+  }
+
+  .how-it-works {
+    padding: 20px;
+  }
+
+  .auth-buttons {
+    display: flex;
+    gap: 8px;
+  }
+}

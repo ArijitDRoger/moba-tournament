@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
-import loginBg from "../assets/login.jpg"; // Your image
+import loginBg from "../assets/landing-hero.png"; // Your image
 import "./glow.css";
 import "./auth.css"; // Same auth style used in Signup
 

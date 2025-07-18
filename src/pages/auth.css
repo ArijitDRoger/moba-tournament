@@ -7,7 +7,7 @@
   padding: 2rem;
   min-height: 100vh;
   background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.85)),
-              url("/signup2.jpg") center/cover no-repeat;
+              url("/signup.png") center/cover no-repeat;
 }
 
 .password-wrapper {

@@ -14,6 +14,7 @@ import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import Layout from "./components/Layout";
 import ResetPassword from "./pages/ResetPassword";
 import DownloadApp from "./pages/DownloadApp";
+import LandingPage from "./pages/LandingPage";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 
@@ -40,7 +41,7 @@ const App = () => {
         {/* 🔁 Redirect root to login or dashboard */}
         <Route
           path="/"
-          element={<Navigate to={user ? "/dashboard" : "/login"} />}
+          element={user ? <Navigate to="/dashboard" /> : <LandingPage />}
         />
 
         {/* Public Routes */}

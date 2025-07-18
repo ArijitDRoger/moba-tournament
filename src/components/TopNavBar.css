@@ -56,21 +56,21 @@
 }
 
 .nav-item.active {
-  color: #00ffae;
+  color: #38ff91;
   transform: scale(1.2);
-  box-shadow: 0 0 10px #00ffae, 0 0 20px #00ffae, 0 0 30px #00ffae;
+  box-shadow: 0 0 10px #38ff91, 0 0 20px #38ff91, 0 0 30px #38ff91;
   border-radius: 10px;
-  background-color: rgba(0, 255, 174, 0.1); /* subtle glow background */
+  background-color: rgba(56, 255, 145, 0.1); /* subtle glow background */
   animation: glowPulse 1.5s infinite;
 }
 
 .nav-item.active .nav-icon-label span {
-  color: #00ffae;
+  color: #38ff91;
 }
 
 @keyframes glowPulse {
   0% {
-    box-shadow: 0 0 10px #00ffae, 0 0 20px #00ffae;
+    box-shadow: 0 0 10px #38ff91, 0 0 20px #38ff91;
   }
   50% {
     box-shadow: 0 0 20px #00ffae, 0 0 30px #00ffae;
