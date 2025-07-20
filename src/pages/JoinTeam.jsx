@@ -69,18 +69,23 @@ const JoinTeam = () => {
       const user = auth.currentUser;
       if (!user) return alert("Not logged in");
 
+      // 🔒 Check if the user is already part of any team
+      const userTeamSnap = await getDocs(
+        query(
+          collection(db, "teams"),
+          where("memberIds", "array-contains", user.uid)
+        )
+      );
+
+      if (!userTeamSnap.empty) {
+        alert("You are already part of a team. You can't join another.");
+        return;
+      }
+
       const teamToJoin = selectedTeam
         ? selectedTeam
         : filteredTeams.find((t) => t.teamName === teamName);
       if (!teamToJoin) return alert("Team not found");
-
-      const isAlreadyMember = teamToJoin.members.some(
-        (m) => m.uid === user.uid
-      );
-      if (isAlreadyMember) {
-        alert("You are already in this team!");
-        return;
-      }
 
       if (teamToJoin.members.length >= 5) {
         alert("This team is already full (5 members).");

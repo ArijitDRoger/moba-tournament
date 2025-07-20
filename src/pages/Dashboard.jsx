@@ -6,24 +6,18 @@ import {
   where,
   getDocs,
   doc,
-  getDoc,
   updateDoc,
   arrayRemove,
 } from "firebase/firestore";
 import "./Dashboard.css";
 
 const Dashboard = () => {
-  const [team, setTeam] = useState(null);
-  const [members, setMembers] = useState([]);
-  const [memberEmails, setMemberEmails] = useState({});
-  const [isCreator, setIsCreator] = useState(false);
-  const [editing, setEditing] = useState(false);
+  const [teams, setTeams] = useState([]);
+  const [editingTeamId, setEditingTeamId] = useState(null);
   const [newTeamName, setNewTeamName] = useState("");
-  const [joinedTournaments, setJoinedTournaments] = useState([]);
-  const [pendingPayments, setPendingPayments] = useState([]);
 
   useEffect(() => {
-    const fetchTeam = async () => {
+    const fetchTeams = async () => {
       const user = auth.currentUser;
       if (!user) return;
 
@@ -33,105 +27,83 @@ const Dashboard = () => {
       );
       const snap = await getDocs(q);
 
-      if (!snap.empty) {
-        const teamDoc = snap.docs[0];
-        const data = teamDoc.data();
-        setTeam({ id: teamDoc.id, ...data });
-        setIsCreator(data.createdBy === user.uid);
-        setMembers(data.members);
-
+      const fetchedTeams = snap.docs.map((docSnap) => {
+        const data = docSnap.data();
         const emailMap = {};
-        await Promise.all(
-          data.members.map(async (member) => {
-            const uid = member.uid || member; // fallback if data is string
-            emailMap[uid] = member.email || "Unknown";
-          })
-        );
-        setMemberEmails(emailMap);
-      }
+        data.members.forEach((m) => {
+          emailMap[m.uid] = m.email || "Unknown";
+        });
+
+        return {
+          id: docSnap.id,
+          ...data,
+          isCreator: data.createdBy === user.uid,
+          memberEmails: emailMap,
+        };
+      });
+
+      setTeams(fetchedTeams);
     };
 
-    fetchTeam();
+    fetchTeams();
   }, []);
 
-  useEffect(() => {
-    const fetchTournaments = async () => {
-      if (!team) return;
+  const handleLeaveTeam = async (teamId, memberObj) => {
+    if (!window.confirm("Are you sure you want to leave this team?")) return;
 
-      const q = query(
-        collection(db, "tournaments"),
-        where("registeredTeams", "array-contains", team.id)
-      );
-      const snap = await getDocs(q);
-      const data = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setJoinedTournaments(data);
-    };
-
-    const fetchPendingPayments = async () => {
-      const user = auth.currentUser;
-      if (!user || !team) return;
-
-      const q = query(
-        collection(db, "pendingPayments"),
-        where("userId", "==", user.uid),
-        where("teamId", "==", team.id),
-        where("status", "==", "pending")
-      );
-      const snap = await getDocs(q);
-      const data = snap.docs.map((doc) => doc.data());
-      setPendingPayments(data);
-    };
-
-    fetchTournaments();
-    fetchPendingPayments();
-  }, [team]);
-
-  const handleKick = async (memberObj) => {
-    if (!window.confirm("Are you sure you want to remove this member?")) return;
     try {
-      const teamRef = doc(db, "teams", team.id);
+      const teamRef = doc(db, "teams", teamId);
       await updateDoc(teamRef, {
         members: arrayRemove(memberObj),
         memberIds: arrayRemove(memberObj.uid),
       });
-      alert("Member removed");
-      setMembers((prev) => prev.filter((m) => m.uid !== memberObj.uid));
-    } catch (err) {
-      alert("Error removing member");
-    }
-  };
-
-  const handleLeave = async () => {
-    const confirm = window.confirm("Are you sure you want to leave this team?");
-    if (!confirm) return;
-
-    try {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const memberObj = members.find((m) => m.uid === user.uid);
-      const teamRef = doc(db, "teams", team.id);
-      await updateDoc(teamRef, {
-        members: arrayRemove(memberObj),
-        memberIds: arrayRemove(user.uid),
-      });
 
       alert("You left the team!");
-      setTeam(null);
-      setMembers([]);
+      setTeams((prev) => prev.filter((t) => t.id !== teamId));
     } catch (err) {
       alert("Failed to leave team: " + err.message);
     }
   };
 
-  const handleEditTeamName = async () => {
+  const handleKick = async (teamId, memberObj) => {
+    if (!window.confirm("Remove this member?")) return;
+
     try {
-      const teamRef = doc(db, "teams", team.id);
+      const teamRef = doc(db, "teams", teamId);
+      await updateDoc(teamRef, {
+        members: arrayRemove(memberObj),
+        memberIds: arrayRemove(memberObj.uid),
+      });
+
+      setTeams((prevTeams) =>
+        prevTeams.map((team) =>
+          team.id === teamId
+            ? {
+                ...team,
+                members: team.members.filter((m) => m.uid !== memberObj.uid),
+              }
+            : team
+        )
+      );
+    } catch (err) {
+      alert("Error removing member: " + err.message);
+    }
+  };
+
+  const handleUpdateTeamName = async (teamId) => {
+    try {
+      const teamRef = doc(db, "teams", teamId);
       await updateDoc(teamRef, {
         teamName: newTeamName,
       });
-      setTeam((prev) => ({ ...prev, teamName: newTeamName }));
-      setEditing(false);
+
+      setTeams((prev) =>
+        prev.map((team) =>
+          team.id === teamId ? { ...team, teamName: newTeamName } : team
+        )
+      );
+
+      setEditingTeamId(null);
       alert("Team name updated!");
     } catch (err) {
       alert("Failed to update team name.");
@@ -143,113 +115,96 @@ const Dashboard = () => {
       <div className="dashboard-card">
         <h2 className="glow">🏠 Dashboard</h2>
         <br />
-        {team ? (
-          <div>
-            <h4>
-              Team:{" "}
-              {editing ? (
-                <>
-                  <input
-                    value={newTeamName}
-                    onChange={(e) => setNewTeamName(e.target.value)}
-                  />
-                  <button
-                    className="btn btn-success btn-sm ms-2"
-                    onClick={handleEditTeamName}
-                  >
-                    Save
-                  </button>
-                  <button
-                    className="btn btn-secondary btn-sm ms-2"
-                    onClick={() => setEditing(false)}
-                  >
-                    Cancel
-                  </button>
-                </>
-              ) : (
-                <>
-                  {team.teamName}{" "}
-                  {isCreator && (
+        {teams.length > 0 ? (
+          teams.map((team) => (
+            <div key={team.id} className="team-box mb-4">
+              <h4>
+                Team:{" "}
+                {editingTeamId === team.id ? (
+                  <>
+                    <input
+                      value={newTeamName}
+                      onChange={(e) => setNewTeamName(e.target.value)}
+                    />
                     <button
-                      className="btn btn-success btn-sm btn-outline-light ms-2"
-                      onClick={() => {
-                        setEditing(true);
-                        setNewTeamName(team.teamName);
-                      }}
+                      className="btn btn-success btn-sm ms-2"
+                      onClick={() => handleUpdateTeamName(team.id)}
                     >
-                      Edit
+                      Save
                     </button>
-                  )}
-                </>
-              )}
-            </h4>
+                    <button
+                      className="btn btn-secondary btn-sm ms-2"
+                      onClick={() => setEditingTeamId(null)}
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {team.teamName}
+                    {team.isCreator && (
+                      <button
+                        className="btn btn-outline-light btn-sm ms-2"
+                        onClick={() => {
+                          setEditingTeamId(team.id);
+                          setNewTeamName(team.teamName);
+                        }}
+                      >
+                        Edit
+                      </button>
+                    )}
+                  </>
+                )}
+              </h4>
 
-            <p>
-              <b>Created By:</b>{" "}
-              {isCreator ? "You" : memberEmails[team.createdBy] || "Unknown"}
-            </p>
-            <br />
-            <h5 className="mt-3">Members:</h5>
-            <ul>
-              {members.map((member) => {
-                const uid = member.uid || member;
-                return (
-                  <li key={uid} className="d-flex justify-content-between">
+              <p>
+                <b>Game:</b> {team.game} <br />
+                <b>Created By:</b>{" "}
+                {team.isCreator
+                  ? "You"
+                  : team.memberEmails[team.createdBy] || "Unknown"}
+              </p>
+
+              <h5>Members:</h5>
+              <ul>
+                {team.members.map((member) => (
+                  <li
+                    key={member.uid}
+                    className="d-flex justify-content-between"
+                  >
                     <span>
-                      {uid === auth.currentUser.uid
+                      {member.uid === auth.currentUser.uid
                         ? "You"
-                        : memberEmails[uid] || uid}
+                        : team.memberEmails[member.uid] || member.uid}
                     </span>
-                    {isCreator && uid !== auth.currentUser.uid && (
+                    {team.isCreator && member.uid !== auth.currentUser.uid && (
                       <button
                         className="btn btn-danger btn-sm"
-                        onClick={() => handleKick(member)}
+                        onClick={() => handleKick(team.id, member)}
                       >
                         Kick
                       </button>
                     )}
                   </li>
-                );
-              })}
-            </ul>
+                ))}
+              </ul>
 
-            {!isCreator && (
-              <button className="btn btn-warning mt-3" onClick={handleLeave}>
-                🚪 Leave Team
-              </button>
-            )}
-            <br />
-            {pendingPayments.length > 0 && (
-              <div className="mt-4">
-                <h5>⏳ Pending Tournaments:</h5>
-                <ul>
-                  {pendingPayments.map((p, idx) => (
-                    <li key={idx}>
-                      Tournament ID: <b>{p.tournamentId}</b> - Status:{" "}
-                      <span className="text-warning">{p.status}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {joinedTournaments.length > 0 && (
-              <div className="tour-joined mt-4">
-                <h5>🏆 Tournaments Joined:</h5>
-                <ul>
-                  {joinedTournaments.map((t) => (
-                    <li key={t.id}>
-                      <b>{t.title}</b> -{" "}
-                      <span className="text-warning">{t.game}</span>{" "}
-                      <span className="text-primary">
-                        Starts on <br /> {t.startDate}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+              {!team.isCreator && (
+                <button
+                  className="btn btn-warning mt-2"
+                  onClick={() =>
+                    handleLeaveTeam(
+                      team.id,
+                      team.members.find((m) => m.uid === auth.currentUser.uid)
+                    )
+                  }
+                >
+                  🚪 Leave Team
+                </button>
+              )}
+              <hr style={{ borderColor: "#555" }} />
+            </div>
+          ))
         ) : (
           <p>You are not in any team yet.</p>
         )}

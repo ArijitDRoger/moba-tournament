@@ -73,10 +73,10 @@
     box-shadow: 0 0 10px #38ff91, 0 0 20px #38ff91;
   }
   50% {
-    box-shadow: 0 0 20px #00ffae, 0 0 30px #00ffae;
+    box-shadow: 0 0 20px #38ff91, 0 0 30px #38ff91;
   }
   100% {
-    box-shadow: 0 0 10px #00ffae, 0 0 20px #00ffae;
+    box-shadow: 0 0 10px #38ff91, 0 0 20px #38ff91;
   }
 }
 

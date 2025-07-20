@@ -3,6 +3,7 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 2rem;
+  height: fit-content;
 }
 
 /* Heading style */
@@ -35,8 +36,8 @@
 
 .tab-item.active {
   background: rgba(0, 255, 128, 0.25);
-  border-color: #00ff80;
-  color: #00ff80;
+  border-color: #38ff91;
+  color: #38ff91;
   font-weight: bold;
 }
 
@@ -97,8 +98,8 @@ body {
 .form-select:focus {
   background-color: rgba(40, 40, 40, 0.95);
   color: #fff;
-  border-color: #00ff80;
-  box-shadow: 0 0 5px #00ff8050;
+  border-color: #38ff91;
+  box-shadow: 0 0 5px #38ff9150;
 }
 
 /* Button tweaks */
@@ -112,9 +113,9 @@ body {
 
 .btn-outline-secondary:hover,
 .btn-outline-info:hover {
-  background-color: #00ff8044;
+  background-color: #38ff9144;
   color: #fff;
-  border-color: #00ff80;
+  border-color: #38ff91;
 }
 
 .form-control,
@@ -145,6 +146,6 @@ input.form-control::placeholder {
 input.form-control:focus {
   background-color: rgba(30, 30, 30, 0.9);
   color: #fff;
-  border-color: #00ff80;
-  box-shadow: 0 0 6px #00ff8040;
+  border-color: #38ff91;
+  box-shadow: 0 0 6px #38ff9140;
 }

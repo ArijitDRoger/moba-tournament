@@ -15,6 +15,7 @@ import Layout from "./components/Layout";
 import ResetPassword from "./pages/ResetPassword";
 import DownloadApp from "./pages/DownloadApp";
 import LandingPage from "./pages/LandingPage";
+import BeautifulLoader from "./components/BeautifulLoader";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 
@@ -32,7 +33,7 @@ const App = () => {
   }, []);
 
   if (checkingAuth) {
-    return <div style={{ color: "#fff", textAlign: "center" }}>Loading...</div>;
+    return <BeautifulLoader />;
   }
 
   return (

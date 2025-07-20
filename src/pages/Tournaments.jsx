@@ -12,7 +12,7 @@ const Tournaments = () => {
   const navigate = useNavigate();
   const [viewFixtureTournamentId, setViewFixtureTournamentId] = useState(null);
   const user = auth.currentUser;
-
+  const [teams, setTeams] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [tournaments, setTournaments] = useState([]);
   const [userTeamId, setUserTeamId] = useState(null);
@@ -21,19 +21,18 @@ const Tournaments = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
       if (user) {
-        // Check admin claim
         const token = await user.getIdTokenResult();
         setIsAdmin(token.claims.admin === true);
 
-        // Existing logic (team & tournaments)
-        const q = query(
+        const teamQuery = query(
           collection(db, "teams"),
           where("memberIds", "array-contains", user.uid)
         );
-        const snap = await getDocs(q);
-        if (!snap.empty) {
-          const teamId = snap.docs[0].id;
-          setUserTeamId(teamId);
+        const teamSnap = await getDocs(teamQuery);
+        if (!teamSnap.empty) {
+          const teamDoc = teamSnap.docs[0];
+          setUserTeamId(teamDoc.id);
+          setTeams([{ id: teamDoc.id, ...teamDoc.data() }]);
         }
 
         const snapT = await getDocs(collection(db, "tournaments"));
@@ -53,11 +52,19 @@ const Tournaments = () => {
       alert("Please create or join a team first!");
       return;
     }
+
     if (!user) {
       setShowPrompt(true);
-    } else {
-      navigate(`/join/${tournamentId}`);
+      return;
     }
+
+    // Prevent join if team is not full
+    const selectedTeam = teams.find((t) => t.id === userTeamId);
+    if (!selectedTeam || selectedTeam.memberIds.length < 5) {
+      alert("Your team must have 5 members to join the tournament.");
+      return;
+    }
+
     navigate(`/join/${tournamentId}/${userTeamId}`);
   };
 
@@ -68,6 +75,9 @@ const Tournaments = () => {
     }, 100);
   };
 
+  const isTeamEligible =
+    teams.find((t) => t.id === userTeamId)?.memberIds?.length >= 5;
+
   return (
     <div className="tournaments-container">
       <div className="tournaments-content">
@@ -77,7 +87,7 @@ const Tournaments = () => {
             {/* ✅ Clickable tournament title */}
             <h4>{tour.title}</h4>
 
-            {isAdmin && (
+            {isAdmin && (tour.registeredTeams?.length || 0) > 1 && (
               <button
                 className="btn btn-outline-light btn-sm mb-2"
                 onClick={() => openFixtureModal(tour)}
@@ -108,8 +118,14 @@ const Tournaments = () => {
               {tour.registeredTeams?.length || 0} / {tour.maxTeams}
             </p>
             <button
-              className="btn btn-primary btn-sm mt-2"
+              className={`btn btn-primary btn-sm mt-2 ${
+                !isTeamEligible ? "disabled" : ""
+              }`}
+              disabled={!isTeamEligible}
               onClick={() => handleJoinClick(tour.id)}
+              title={
+                !isTeamEligible ? "Gather remaining teammates (Need 5)" : ""
+              }
             >
               Join & Pay
             </button>
