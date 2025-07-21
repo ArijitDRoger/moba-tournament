@@ -18,6 +18,7 @@ import LandingPage from "./pages/LandingPage";
 import BeautifulLoader from "./components/BeautifulLoader";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
+import Home from "./pages/Home";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -58,7 +59,8 @@ const App = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="dashboard" element={<Home />} />
+
           <Route path="create-team" element={<CreateTeam />} />
           <Route path="join-team" element={<JoinTeam />} />
           <Route path="reset-password" element={<ResetPassword />} />

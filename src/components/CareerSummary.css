@@ -1,0 +1,17 @@
+.career-card {
+  cursor: pointer;
+}
+.career-card ul {
+  margin: 0;
+  padding-left: 16px;
+}
+.career-card li {
+  list-style: disc;
+  margin-bottom: 4px;
+}
+.win { color: #2ecc71; }
+.loss { color: #e74c3c; }
+.click-hint {
+  font-size: 0.75rem;
+  color: #888;
+}

@@ -28,6 +28,11 @@
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
+input[type="radio"] {
+  accent-color: #00ffc3;
+}
+
+
 /* Fixture list styling */
 .modal-content ul {
   list-style: none;

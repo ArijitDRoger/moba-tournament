@@ -1,0 +1,107 @@
+/* AdminBracketManager.css */
+
+/* Container for entire bracket */
+.round-columns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  overflow-x: auto;
+  padding: 20px 0;
+  scroll-snap-type: x mandatory;
+}
+
+/* Each round container */
+.round-column {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px;
+  border-radius: 10px;
+  width: 250px;
+  height: 100%;
+  scroll-snap-align: start;
+  box-shadow: 0 0 10px rgba(0, 255, 128, 0.1);
+  transition: transform 0.3s;
+}
+
+.round-column:hover {
+  transform: scale(1.02);
+}
+
+/* Title for each round */
+.round-column h6 {
+  text-align: center;
+  font-weight: bold;
+  color: #00ffcc;
+  margin-bottom: 15px;
+}
+
+/* Fixture card inside each round */
+.fixture-card {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 12px;
+  border-radius: 10px;
+  color: #ffffff;
+  margin-bottom: 20px;
+  box-shadow: 0 0 8px rgba(0, 255, 128, 0.3);
+  border-left: 4px solid #00ffaa;
+  transition: box-shadow 0.2s;
+}
+
+.fixture-card:hover {
+  box-shadow: 0 0 12px #00ffaa;
+}
+
+/* Match info */
+.fixture-card b {
+  color: #00ffc8;
+}
+
+/* Input styles */
+.fixture-card input,
+.fixture-card select {
+  margin-top: 6px;
+  border-radius: 4px;
+  border: none;
+  padding: 6px;
+  width: 100%;
+  background-color: #121212;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.fixture-card input:focus,
+.fixture-card select:focus {
+  outline: 2px solid #00ffc8;
+}
+
+/* Winner label */
+.winner-label {
+  font-size: 0.8rem;
+  color: gold;
+  margin-top: 6px;
+  font-weight: bold;
+  text-align: right;
+}
+
+/* Winner pill */
+.winner-chip {
+  background: linear-gradient(145deg, #04aa6d, #027a4b);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: grab;
+  margin-top: 5px;
+  font-size: 0.85rem;
+  display: inline-block;
+  box-shadow: 0 0 6px #04aa6d;
+  user-select: none;
+}
+
+/* Selected winner highlight */
+.winner-highlight {
+  color: #4caf50;
+  font-weight: bold;
+  text-shadow: 0 0 6px #4caf50;
+}
