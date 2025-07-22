@@ -96,6 +96,31 @@ const AdminBracketManager = ({ tournamentId }) => {
     if (tournamentId) fetchFixtures();
   }, [tournamentId]);
 
+  const getRoundLabel = (roundKey, totalRounds) => {
+    const roundNumber = parseInt(roundKey.replace(/\D/g, ""), 10);
+
+    if (totalRounds === 1) return "🏆 Final";
+    if (totalRounds === 2) {
+      return roundNumber === 1 ? "🎯 Semi Final" : "🏆 Final";
+    }
+    if (totalRounds === 3) {
+      if (roundNumber === 1) return "🎮 Quarter Final";
+      if (roundNumber === 2) return "🎯 Semi Final";
+      return "🏆 Final";
+    }
+    if (totalRounds >= 4) {
+      const labels = {
+        4: "🔰 Round 1",
+        3: "🎮 Quarter Final",
+        2: "🎯 Semi Final",
+        1: "🏆 Final",
+      };
+      return labels[totalRounds - roundNumber + 1] || `Round ${roundNumber}`;
+    }
+
+    return `Round ${roundNumber}`;
+  };
+
   return (
     <div className="glass-card p-3">
       <KnockoutBracketTree
@@ -122,7 +147,10 @@ const AdminBracketManager = ({ tournamentId }) => {
           .sort((a, b) => b.localeCompare(a, undefined, { numeric: true }))
           .map((round) => (
             <div className="round-column" key={round}>
-              <h6 className="text-warning text-center">{round}</h6>
+              <h6 className="text-warning text-center">
+                {getRoundLabel(round, Object.keys(fixturesByRound).length)}
+              </h6>
+
               {fixturesByRound[round].map((fixture, index) => (
                 <div key={fixture.id} className="fixture-card">
                   <b>Match {fixture.matchNumber}:</b>{" "}

@@ -30,11 +30,13 @@
 
 /* Title for each round */
 .round-column h6 {
-  text-align: center;
+  font-size: 1.1rem;
   font-weight: bold;
-  color: #00ffcc;
-  margin-bottom: 15px;
+  padding: 6px 0;
+  border-bottom: 1px solid limegreen;
+  margin-bottom: 10px;
 }
+
 
 /* Fixture card inside each round */
 .fixture-card {
