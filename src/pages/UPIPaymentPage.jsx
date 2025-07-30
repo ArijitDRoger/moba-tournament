@@ -9,7 +9,7 @@ const UPIPaymentPage = () => {
   const navigate = useNavigate();
   const [request, setRequest] = useState(null);
 
-  const adminWhatsappNumber = "917001688122";
+  const adminWhatsappNumber = "917908486640";
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,9 +23,15 @@ const UPIPaymentPage = () => {
     const message = `
 📥 *Recharge Payment Done*
 Game: ${request?.game}
+in-game Name: ${request?.nickname || request?.ign}
+Character ID: ${request?.characterId}
+Zone ID: ${request?.zoneId || request?.serverId}
 Amount: ${request?.amount}
 Price: ₹${request?.price}
 User: ${request?.email}
+User name: ${request?.name || request?.userId}
+Please confirm the payment and process the recharge.
+
 
 🖼 *Please attach your payment screenshot here.*
     `;

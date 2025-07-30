@@ -7,8 +7,8 @@ const PurchasePage = () => (
   <div className="purchase-wrapper">
     <h2 className="glow text-center mb-4">💎 Purchase UC & Diamonds</h2>
     <div className="purchase-cards">
-      <BGMIUC />
       <MLBBDiamonds />
+      <BGMIUC />
     </div>
   </div>
 );

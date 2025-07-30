@@ -4,8 +4,8 @@
   border-radius: 12px;
   padding: 20px;
   text-align: center;
-  background: rgba(0, 0, 0, 0.6);
-  min-height: 180px; /* same height for all */
+  background: rgba(6, 246, 122, 0.525);
+  min-height: 80px; /* same height for all */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
