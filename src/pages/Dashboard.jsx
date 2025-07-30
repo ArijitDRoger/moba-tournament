@@ -27,20 +27,36 @@ const Dashboard = () => {
       );
       const snap = await getDocs(q);
 
-      const fetchedTeams = snap.docs.map((docSnap) => {
-        const data = docSnap.data();
-        const emailMap = {};
-        data.members.forEach((m) => {
-          emailMap[m.uid] = m.email || "Unknown";
-        });
+      const fetchedTeams = await Promise.all(
+        snap.docs.map(async (docSnap) => {
+          const data = docSnap.data();
+          const emailMap = {};
+          data.members.forEach((m) => {
+            emailMap[m.uid] = m.email || "Unknown";
+          });
 
-        return {
-          id: docSnap.id,
-          ...data,
-          isCreator: data.createdBy === user.uid,
-          memberEmails: emailMap,
-        };
-      });
+          const tourQuery = query(
+            collection(db, "tournaments"),
+            where("registeredTeams", "array-contains", docSnap.id)
+          );
+          const tourSnap = await getDocs(tourQuery);
+
+          const tournamentsJoined = tourSnap.docs.map((t) => ({
+            id: t.id,
+            title: t.data().title,
+            status: t.data().status || "upcoming",
+            startDate: t.data().startDate || "N/A",
+          }));
+
+          return {
+            id: docSnap.id,
+            ...data,
+            isCreator: data.createdBy === user.uid,
+            memberEmails: emailMap,
+            tournaments: tournamentsJoined,
+          };
+        })
+      );
 
       setTeams(fetchedTeams);
     };
@@ -108,6 +124,12 @@ const Dashboard = () => {
     } catch (err) {
       alert("Failed to update team name.");
     }
+  };
+
+  const getStatusColor = (status) => {
+    if (status === "ongoing") return "#ff0";
+    if (status === "finished") return "#f44";
+    return "#0ff"; // upcoming
   };
 
   return (
@@ -202,6 +224,27 @@ const Dashboard = () => {
                   🚪 Leave Team
                 </button>
               )}
+
+              {/* ✅ Tournaments for this team */}
+              <div className="mt-3">
+                <h5 style={{ color: "#0f0" }}>🎮 Tournaments Joined:</h5>
+                {team.tournaments?.length > 0 ? (
+                  <ul>
+                    {team.tournaments.map((t) => (
+                      <li key={t.id}>
+                        <strong>{t.title}</strong> –{" "}
+                        <span style={{ color: getStatusColor(t.status) }}>
+                          {t.status}
+                        </span>{" "}
+                        | Start: {t.startDate}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p style={{ color: "#ccc" }}>No tournaments joined yet.</p>
+                )}
+              </div>
+
               <hr style={{ borderColor: "#555" }} />
             </div>
           ))

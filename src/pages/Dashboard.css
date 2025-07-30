@@ -7,10 +7,7 @@
   align-items: flex-start;
 }
 
-.glow {
-  color: #fff;
-  text-shadow: 0 0 6px #38ff91, 0 0 6px #38ff91;
-}
+
 
 .dashboard-card {
   background-color: rgba(0, 0, 0, 0.5);

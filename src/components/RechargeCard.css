@@ -1,0 +1,38 @@
+.recharge-card {
+  cursor: pointer;
+  border: 2px solid #00ffcc;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.6);
+  min-height: 180px; /* same height for all */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.3s ease;
+}
+
+.recharge-card:hover {
+  transform: scale(1.05);
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.recharge-icon {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin: 0 auto 12px;
+}
+
+.recharge-amount {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.recharge-price {
+  font-size: 0.9rem;
+  color: #0ff;
+  margin: 0;
+}

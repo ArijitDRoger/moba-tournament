@@ -109,6 +109,16 @@ const Sidebar = () => {
               🤝 Join Team
             </Link>
           </li>
+          <li className="nav-item ">
+            <Link
+              to="/purchase"
+              className={`nav-link d-flex align-items-center gap-2 ${
+                location.pathname === "/purchase" ? "active" : ""
+              }`}
+            >
+              💳 Purchase UC & Diamonds
+            </Link>
+          </li>
 
           {/* 🔧 Beautified Download App */}
           <li className="nav-item">

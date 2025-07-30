@@ -1,0 +1,34 @@
+.purchase-wrapper {
+  padding: 2rem;
+  color: white;
+}
+
+.purchase-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.recharge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 15px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.glass-card:hover {
+  transform: scale(1.05);
+}
+
+.glow {
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+}

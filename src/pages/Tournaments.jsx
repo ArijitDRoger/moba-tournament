@@ -3,80 +3,100 @@ import React, { useEffect, useState } from "react";
 import { db, auth } from "../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import FixtureModal from "../components/FixtureModal"; // ✅ Correct import
-import "./Tournaments.css";
+import FixtureModal from "../components/FixtureModal";
 import ViewFixtureModal from "../components/ViewFixtureModal";
+import "./Tournaments.css";
+import TeamSelectModal from "../components/TeamSelectModal";
 
 const Tournaments = () => {
-  const [showPrompt, setShowPrompt] = useState(false);
-  const navigate = useNavigate();
-  const [viewFixtureTournamentId, setViewFixtureTournamentId] = useState(null);
-  const user = auth.currentUser;
-  const [teams, setTeams] = useState([]);
+  const [user, setUser] = useState(null); // ✅ Proper user state
   const [isAdmin, setIsAdmin] = useState(false);
   const [tournaments, setTournaments] = useState([]);
-  const [userTeamId, setUserTeamId] = useState(null);
+  const [teams, setTeams] = useState([]);
   const [selectedTournament, setSelectedTournament] = useState(null);
+  const [selectedTournamentForJoin, setSelectedTournamentForJoin] =
+    useState(null);
+  const [teamSelectorVisible, setTeamSelectorVisible] = useState(false);
+  const [viewFixtureTournamentId, setViewFixtureTournamentId] = useState(null);
+  const [showPrompt, setShowPrompt] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const token = await user.getIdTokenResult();
+    const unsubscribe = auth.onAuthStateChanged(async (firebaseUser) => {
+      if (firebaseUser) {
+        setUser(firebaseUser); // ✅ Fix
+
+        const token = await firebaseUser.getIdTokenResult();
         setIsAdmin(token.claims.admin === true);
 
         const teamQuery = query(
           collection(db, "teams"),
-          where("memberIds", "array-contains", user.uid)
+          where("memberIds", "array-contains", firebaseUser.uid)
         );
         const teamSnap = await getDocs(teamQuery);
-        if (!teamSnap.empty) {
-          const teamDoc = teamSnap.docs[0];
-          setUserTeamId(teamDoc.id);
-          setTeams([{ id: teamDoc.id, ...teamDoc.data() }]);
-        }
-
-        const snapT = await getDocs(collection(db, "tournaments"));
-        const data = snapT.docs.map((doc) => ({
+        const userTeams = teamSnap.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setTournaments(data);
+        setTeams(userTeams);
       }
+
+      // Load all tournaments regardless of login
+      const snapT = await getDocs(collection(db, "tournaments"));
+      const data = snapT.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTournaments(data);
     });
 
     return () => unsubscribe();
   }, []);
 
-  const handleJoinClick = (tournamentId) => {
-    if (!userTeamId) {
-      alert("Please create or join a team first!");
-      return;
-    }
+  const getRequiredMembers = (game) => (game === "BGMI" ? 4 : 5);
 
+  const isTeamEligibleForTournament = (tour) => {
+    const minPlayers = getRequiredMembers(tour.game);
+    return teams.some(
+      (team) => team.game === tour.game && team.memberIds?.length >= minPlayers
+    );
+  };
+
+  const handleJoinClick = (tournament) => {
+    console.log("Join clicked for tournament:", tournament);
     if (!user) {
       setShowPrompt(true);
       return;
     }
 
-    // Prevent join if team is not full
-    const selectedTeam = teams.find((t) => t.id === userTeamId);
-    if (!selectedTeam || selectedTeam.memberIds.length < 5) {
-      alert("Your team must have 5 members to join the tournament.");
+    const game = tournament.game;
+    const minPlayers = getRequiredMembers(game);
+
+    const eligibleTeams = teams.filter(
+      (team) => team.game === game && team.memberIds.length >= minPlayers
+    );
+
+    if (eligibleTeams.length === 0) {
+      alert(
+        `You don't have any ${game} team with at least ${minPlayers} players.`
+      );
       return;
     }
 
-    navigate(`/join/${tournamentId}/${userTeamId}`);
+    setSelectedTournamentForJoin(tournament);
+    setTeamSelectorVisible(true);
   };
 
   const openFixtureModal = (tournament) => {
     setSelectedTournament(null);
     setTimeout(() => {
-      setSelectedTournament({ ...tournament }); // force re-render
+      setSelectedTournament({ ...tournament });
     }, 100);
   };
 
-  const isTeamEligible =
-    teams.find((t) => t.id === userTeamId)?.memberIds?.length >= 5;
+  // ✅ Debug modal visibility
+  console.log({ user, teams, teamSelectorVisible, selectedTournamentForJoin });
 
   return (
     <div className="tournaments-container">
@@ -84,7 +104,6 @@ const Tournaments = () => {
         <h2 className="glow">🎯 All Tournaments</h2>
         {tournaments.map((tour) => (
           <div key={tour.id} className="glass-card p-4 my-3">
-            {/* ✅ Clickable tournament title */}
             <h4>{tour.title}</h4>
 
             {isAdmin && (tour.registeredTeams?.length || 0) > 1 && (
@@ -119,19 +138,35 @@ const Tournaments = () => {
             </p>
             <button
               className={`btn btn-primary btn-sm mt-2 ${
-                !isTeamEligible ? "disabled" : ""
+                !isTeamEligibleForTournament(tour) ? "disabled" : ""
               }`}
-              disabled={!isTeamEligible}
-              onClick={() => handleJoinClick(tour.id)}
+              disabled={!isTeamEligibleForTournament(tour)}
+              onClick={() => handleJoinClick(tour)}
               title={
-                !isTeamEligible ? "Gather remaining teammates (Need 5)" : ""
+                !isTeamEligibleForTournament(tour)
+                  ? `Need ${getRequiredMembers(
+                      tour.game
+                    )} players in team to join`
+                  : ""
               }
             >
               Join & Pay
             </button>
           </div>
         ))}
-        {/* Signup Prompt Modal */}
+
+        {teamSelectorVisible && selectedTournamentForJoin && (
+          <TeamSelectModal
+            tournament={selectedTournamentForJoin}
+            teams={teams}
+            getRequiredMembers={getRequiredMembers}
+            onCancel={() => {
+              setTeamSelectorVisible(false);
+              setSelectedTournamentForJoin(null);
+            }}
+          />
+        )}
+
         {showPrompt && (
           <div className="modal">
             <p>You need to sign up or log in to join a tournament.</p>
@@ -140,6 +175,7 @@ const Tournaments = () => {
           </div>
         )}
       </div>
+
       {viewFixtureTournamentId && (
         <ViewFixtureModal
           tournamentId={viewFixtureTournamentId}
@@ -147,10 +183,9 @@ const Tournaments = () => {
         />
       )}
 
-      {/* ✅ Fixture Modal */}
       {selectedTournament && (
         <FixtureModal
-          key={selectedTournament.id} // 🔥 Force remount when tournament changes
+          key={selectedTournament.id}
           tournament={selectedTournament}
           onClose={() => setSelectedTournament(null)}
         />

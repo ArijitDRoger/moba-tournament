@@ -19,6 +19,8 @@ import BeautifulLoader from "./components/BeautifulLoader";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import Home from "./pages/Home";
+import PurchasePage from "./pages/PurchasePage";
+import UPIPaymentPage from "./pages/UPIPaymentPage";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -29,28 +31,28 @@ const App = () => {
       setUser(currentUser || null);
       setCheckingAuth(false);
     });
-
     return () => unsubscribe();
   }, []);
 
-  if (checkingAuth) {
-    return <BeautifulLoader />;
-  }
+  if (checkingAuth) return <BeautifulLoader />;
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* 🔁 Redirect root to login or dashboard */}
+        {/* Public Routes */}
         <Route
           path="/"
           element={user ? <Navigate to="/dashboard" /> : <LandingPage />}
         />
-
-        {/* Public Routes */}
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/pay/:id" element={<UPIPaymentPage />} />
+        <Route
+          path="/join/:tournamentId/:teamId"
+          element={<JoinWithPayment />}
+        />
 
-        {/* Protected Routes with Layout */}
+        {/* Protected with Layout */}
         <Route
           path="/"
           element={
@@ -60,24 +62,12 @@ const App = () => {
           }
         >
           <Route path="dashboard" element={<Home />} />
-
           <Route path="create-team" element={<CreateTeam />} />
           <Route path="join-team" element={<JoinTeam />} />
+          <Route path="purchase" element={<PurchasePage />} />
           <Route path="reset-password" element={<ResetPassword />} />
-          <Route
-            path="create-tournament"
-            element={
-              <ProtectedAdminRoute user={user}>
-                <CreateTournament />
-              </ProtectedAdminRoute>
-            }
-          />
-
-          <Route
-            path="join/:tournamentId/:teamId"
-            element={<JoinWithPayment />}
-          />
           <Route path="download" element={<DownloadApp />} />
+
           <Route
             path="admin-panel"
             element={
@@ -86,7 +76,15 @@ const App = () => {
               </ProtectedAdminRoute>
             }
           />
-          <Route path="/tournaments" element={<Tournaments user={user} />} />
+          <Route
+            path="create-tournament"
+            element={
+              <ProtectedAdminRoute user={user}>
+                <CreateTournament />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route path="tournaments" element={<Tournaments user={user} />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { auth, db, storage } from "../firebase";
+import { auth, db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import paytmQR from "../assets/qr.jpg";
 
 const JoinWithPayment = () => {
+  console.log("Navigated to JoinWithPayment", tournamentId, teamId);
+
   const { tournamentId, teamId } = useParams();
   const navigate = useNavigate();
-  const [screenshot, setScreenshot] = useState(null);
 
   const handleSendScreenshot = async () => {
     const user = auth.currentUser;
@@ -17,64 +17,44 @@ const JoinWithPayment = () => {
       return;
     }
 
-    let screenshotURL = "";
-
-    // Upload screenshot to Firebase Storage (if uploaded)
-    if (screenshot) {
-      const storageRef = ref(
-        storage,
-        `screenshots/${Date.now()}_${screenshot.name}`
-      );
-      try {
-        const snap = await uploadBytes(storageRef, screenshot);
-        screenshotURL = await getDownloadURL(snap.ref);
-      } catch (err) {
-        console.error("Error uploading screenshot", err);
-        alert("Screenshot upload failed.");
-        return;
-      }
-    }
-
-    // Save pending payment info
+    // Save pending payment info in Firestore
     try {
       await addDoc(collection(db, "pendingPayments"), {
         tournamentId,
         teamId,
         userId: user.uid,
         email: user.email,
-        screenshotURL: screenshotURL || "",
         status: "pending",
         submittedAt: new Date(),
       });
     } catch (err) {
-      console.error("Error saving to Firestore", err);
-      alert("Error saving payment status");
+      console.error("Error saving payment info:", err);
+      alert("Something went wrong. Please try again.");
       return;
     }
 
-    const message = `Hello Admin,\nI've paid for the tournament.\nTournament ID: ${tournamentId}\nTeam ID: ${teamId}\nPlease find the payment screenshot attached.`;
-    const whatsappLink = `https://wa.me/917001688122?text=${encodeURIComponent(
+    // Open WhatsApp with prefilled message
+    const message = `Hello Admin,\nI’ve paid the tournament entry fee.\nTournament ID: ${tournamentId}\nTeam ID: ${teamId}\nPlease find the payment screenshot attached.`;
+    const whatsappURL = `https://wa.me/917001688122?text=${encodeURIComponent(
       message
     )}`;
-    window.open(whatsappLink, "_blank");
+    window.open(whatsappURL, "_blank");
 
-    alert("Payment request sent. Please wait for approval.");
+    alert("Request submitted. Please share the screenshot in WhatsApp.");
     navigate("/dashboard");
   };
 
   return (
     <div className="p-4">
       <h3>Join Tournament</h3>
-      <p>Scan the QR below and pay the tournament entry fee.</p>
+      <p>Scan the QR code below to pay the entry fee:</p>
       <img src={paytmQR} alt="Paytm QR" style={{ width: "250px" }} />
 
-      <p className="mt-3">Upload your payment screenshot:</p>
-      <input type="file" onChange={(e) => setScreenshot(e.target.files[0])} />
-
-      <p className="mt-3">Then click below to notify admin:</p>
+      <p className="mt-3">After payment, click below to notify the admin:</p>
       <button className="btn btn-success mt-3" onClick={handleSendScreenshot}>
         Send Screenshot on WhatsApp
       </button>
+
       <button
         className="btn btn-secondary mt-3 ms-3"
         onClick={() => navigate("/tournaments")}

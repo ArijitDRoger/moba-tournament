@@ -19,19 +19,33 @@
   font-weight: 600;
 }
 
+/* Add this to TeamSelectModal.css or global CSS */
+
 .modal {
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  padding: 2rem;
-  border-radius: 8px;
   position: fixed;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -30%);
-  z-index: 1000;
-  max-width: 300px;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75); /* dark overlay */
+  z-index: 9999; /* ensure it's on top */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #1e1e1e; /* dark glass look */
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 20px #00ffcc88;
+  color: #fff;
+  z-index: 10000;
+  max-width: 90%;
+  width: 400px;
   text-align: center;
 }
+
 .modal button {
   margin-top: 10px;
   margin-right: 8px;
@@ -60,17 +74,7 @@
   z-index: 9999;
 }
 
-.modal-content {
-  max-width: 500px;
-  width: 90%;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  border-radius: 12px;
-  padding: 20px;
-  color: white;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
-  position: relative;
-}
+
 
 .btn-close {
   position: absolute;
