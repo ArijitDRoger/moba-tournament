@@ -7,9 +7,10 @@ const changelog = [
     version: "1.0.0",
     date: "July 14, 2025",
     changes: [
-      "Initial release",
-      "Join & create teams",
-      "Admin panel with fixture system",
+      "✨ Auto-fetch Game ID, IGN & Server ID for payment uploads",
+      "🐛 Bug fixes in Recharge Modal not showing properly",
+      "🎨 UI enhancements for mobile devices",
+      "🔒 Minor security improvements",
     ],
   },
   {
@@ -21,7 +22,7 @@ const changelog = [
 
 const DownloadApp = () => {
   const apkUrl =
-    "https://github.com/ArijitDRoger/moba-tournament/releases/download/v1.2.0/eTour.apk";
+    "https://github.com/ArijitDRoger/moba-tournament/releases/download/v1.3.0/eTour.apk";
 
   return (
     <div className="download-page">
