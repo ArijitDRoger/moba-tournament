@@ -3,10 +3,11 @@ import RechargeCard from "./RechargeCard";
 import RechargeModal from "./RechargeModal";
 
 const bgmiPackages = [
-  { amount: 60, price: 75 },
-  { amount: 325, price: 380 },
-  { amount: 660, price: 750 },
-  { amount: 1800, price: 1900 },
+  // { amount: 60, price: 75 },
+  // { amount: 325, price: 380 },
+  // { amount: 660, price: 750 },
+  // { amount: 1800, price: 1900 },
+  { amount: "coming soon", price: "coming soon" },
 ];
 
 const BGMIUC = () => {
